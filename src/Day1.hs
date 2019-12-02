@@ -1,7 +1,4 @@
-module Day1
-    ( solve1,
-      solve2
-    ) where
+module Day1 where
 
 --solve :: Integral a => [String] -> a
 solve1 = solve' getFuel
