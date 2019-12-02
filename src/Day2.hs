@@ -1,28 +1,28 @@
 module Day2 where
 
+import Lib
 
+solve1 content = 
+    step xs 0
+    where 
+        ws = wordsWhen (==',') content
+        xs = map read ws
 
+put xs x idx = take idx xs ++ [x] ++ drop (idx+1) xs
 
+step xs idx =
+    if xs !! idx == 99 then
+        xs !! 0
+    else
+        step (step' xs idx) (idx+4)
 
-
-
-
-
-
-
-
--- --solve :: Integral a => [String] -> a
--- solve1 = solve' getFuel
-
--- solve2 = solve' getFuelTotal
-
--- solve' f xs = sum $ map (f.read) xs
-
--- getFuel mass = mass `div` 3 - 2
-
--- --getFuelTotal :: (RealFrac a,Integral a, Show a) => a -> a
--- getFuelTotal mass =
---     sum masses
---     where
---         massSeq = iterate getFuel mass
---         masses = takeWhile (>0) $ drop 1 massSeq
+step' xs idx = 
+    put xs newValue newInd
+    where 
+        value1 = xs !! (xs !! (idx+1))
+        value2 = xs !! (xs !! (idx+2))
+        newInd = xs !! (idx+3)
+        op = case xs !! idx of
+                1 -> (+)
+                2 -> (*)
+        newValue = op value1 value2
