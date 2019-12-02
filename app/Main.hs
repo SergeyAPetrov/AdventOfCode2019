@@ -7,5 +7,5 @@ main =
     do 
         -- contents <- lines <$> readFile "input/2.txt"
         contents <- readFile "input/2.txt"
-        let answer = solve1 contents
+        let answer = solve2 contents
         print answer
