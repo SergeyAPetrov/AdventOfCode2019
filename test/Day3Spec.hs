@@ -1,6 +1,7 @@
 module Day3Spec (spec) where
 
 import Test.Hspec
+import qualified Data.Set as Set
 import Day3
 
 spec :: Spec
@@ -11,15 +12,15 @@ spec =
     it "parse multi entry path" $
         parse "U1,R55" `shouldBe` [(U,1), (R,55)]
     it "wire step from start point" $
-        wireStep (0, 0) (R, 3) `shouldBe` [(1,0), (2,0), (3,0)]
+        wireStep (0, 0) (R, 3) `shouldBe` [(3,0), (2,0), (1,0)]
     it "wire next step" $
-        wireStep (3, 0) (U, 4) `shouldBe` [(3,1), (3,2), (3,3), (3,4)]
+        wireStep (3, 0) (U, 4) `shouldBe` [(3,4), (3,3), (3,2), (3,1)]
     it "wire path" $
-        wire [(R, 3), (U, 4)] `shouldBe` [(0,0),(1,0), (2,0), (3,0), (3,1), (3,2), (3,3), (3,4)]
+        wire [(R, 3), (U, 4)] `shouldBe` [(3,4),(3,3),(3,2),(3,1),(3,0),(2,0),(1,0),(0,0)]
     it "wire path left and down" $
-        wire [(D, 2), (L, 3)] `shouldBe` [(0,0),(0,-1), (0,-2), (-1,-2), (-2,-2), (-3,-2)]
+        wire [(D, 2), (L, 3)] `shouldBe` [(-3,-2),(-2,-2),(-1,-2),(0,-2),(0,-1),(0,0)]
     it "intersection found" $
-        wireIntersection "R8,U5,L5,D3" "U7,R6,D4,L4" `shouldBe` [(0,0),(6,5), (3,3)]
+        wireIntersection "R8,U5,L5,D3" "U7,R6,D4,L4" `shouldBe` (Set.fromList [(3,3),(6,5),(0,0)])
     it "solution test 1" $
         solve1 "R8,U5,L5,D3" "U7,R6,D4,L4" `shouldBe` 6
     it "solution test 2" $
