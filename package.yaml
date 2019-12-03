@@ -22,7 +22,7 @@ extra-source-files:
 - ChangeLog.md
 author: Sergey Petrov
 github: SergeyAPetrov/AdventOfCode2019
-license: MIT License
+license: MIT
 executables:
   AdventOfCode2019-exe:
     source-dirs: app

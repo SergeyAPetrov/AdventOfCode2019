@@ -4,17 +4,17 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 892a6e9bbd2284c0491fc8366c40b64c879884d2042c59223849078c91c5afc0
+-- hash: a3c07744d7339f4df3fcf48f3c86647e862e4f683bfd84314404afebde744dc9
 
 name:           AdventOfCode2019
 version:        0.1.0.0
-description:    Please see the README on GitHub at <https://github.com/githubuser/AdventOfCode2019#readme>
-homepage:       https://github.com/githubuser/AdventOfCode2019#readme
-bug-reports:    https://github.com/githubuser/AdventOfCode2019/issues
-author:         Author name here
+description:    Please see the README on GitHub at <https://github.com/SergeyAPetrov/AdventOfCode2019#readme>
+homepage:       https://github.com/SergeyAPetrov/AdventOfCode2019#readme
+bug-reports:    https://github.com/SergeyAPetrov/AdventOfCode2019/issues
+author:         Sergey Petrov
 maintainer:     example@example.com
-copyright:      2019 Author name here
-license:        BSD3
+copyright:      2019 Sergey Petrov
+license:        MIT
 license-file:   LICENSE
 build-type:     Simple
 extra-source-files:
@@ -23,12 +23,13 @@ extra-source-files:
 
 source-repository head
   type: git
-  location: https://github.com/githubuser/AdventOfCode2019
+  location: https://github.com/SergeyAPetrov/AdventOfCode2019
 
 library
   exposed-modules:
       Day1
       Day2
+      Day3
       Lib
   other-modules:
       Paths_AdventOfCode2019
@@ -57,6 +58,7 @@ test-suite AdventOfCode2019-test
   main-is: Spec.hs
   other-modules:
       Day1Spec
+      Day3Spec
       Paths_AdventOfCode2019
   hs-source-dirs:
       test
