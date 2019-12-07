@@ -1,11 +1,11 @@
 module Main where
 
-import Day4
+import Day6
 
 main :: IO ()
 main = 
     do 
-        --contents <- lines <$> readFile "input/3.txt"
+        contents <- lines <$> readFile "input/6.txt"
         -- contents <- readFile "input/2.txt"
-        let answer = solve1 152085 670283
+        let answer = solve2 contents
         print answer
