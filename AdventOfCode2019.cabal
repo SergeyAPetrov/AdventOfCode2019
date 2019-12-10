@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5811c111268058404c08352bd83e49a30addd25aa150a096d518af52a0e1d3e6
+-- hash: 6f64e4544b7d96a7f1c5663b7c8a365fa9e5c13496c7fe83d2e4501c4c6f3b8f
 
 name:           AdventOfCode2019
 version:        0.1.0.0
@@ -28,6 +28,7 @@ source-repository head
 library
   exposed-modules:
       Day1
+      Day10
       Day2
       Day3
       Day4
@@ -64,6 +65,7 @@ test-suite AdventOfCode2019-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      Day10Spec
       Day1Spec
       Day3Spec
       Day4Spec
