@@ -20,3 +20,6 @@ spec =
         pointNotVisible (1,1) (2,2) (3,3) `shouldBe` True 
     it "pointNotVisible2" $
         pointNotVisible (2,2) (1,1) (3,3) `shouldBe` False  
+    it "calculate visible point 1" $
+        calculateVisiblePoints (1,0) [(4,0),(0,2),(1,2), (2,2), (3,2), (4,2), (4,3), (3,4), (4,4)]
+            `shouldBe` [(4,4),(4,2),(3,2),(2,2),(1,2),(0,2),(4,0)]
