@@ -20,22 +20,40 @@ sameSign a b
     | a<0 && b<0   = True
     | otherwise  = False
 
-pointDominated (xBase,yBase) (x2,y2) (x3,y3) =
-    sameLine (xBase,yBase) (x2,y2) (x3,y3) && pointNotVisible (xBase,yBase) (x2,y2) (x3,y3)
+pointDominated pBase point2 point3 =
+    sameLine pBase point2 point3 && pointNotVisible pBase point2 point3
 
-pointDominatedBySet (xBase,yBase) points (x3,y3) =
-    any (\p -> pointDominated (xBase,yBase) p (x3,y3)) points
+pointDominatedBySet pBase points point3 =
+    any (\p -> pointDominated pBase p point3) points
 
-setNotDominatedByPoint (xBase, yBase) (x,y) points =
-    filter (not . pointDominated (xBase, yBase) (x,y)) points
-
-calculateVisiblePoints (xBase, yBase) points = 
-    foldl folder [] points
-        where folder = visibilityFolder (xBase, yBase)
+setNotDominatedByPoint pBase point points =
+    filter (not . pointDominated pBase point) points
 
 -- visibilityFolder :: (Integer, Integer) -> (Integer, Integer) -> [(Integer, Integer)] -> [(Integer, Integer)] 
-visibilityFolder (xBase, yBase) currentVisiplePoints (x,y) = 
-    if pointDominatedBySet (xBase,yBase) currentVisiplePoints (x,y) then
+visibilityFolder pBase currentVisiplePoints point = 
+    if pointDominatedBySet pBase currentVisiplePoints point then
         currentVisiplePoints
     else 
-        (x,y) : setNotDominatedByPoint (xBase, yBase) (x,y) currentVisiplePoints
+        point : setNotDominatedByPoint pBase point currentVisiplePoints
+
+calculateVisiblePoints pBase points = 
+    foldl folder [] points
+        where folder = visibilityFolder pBase
+
+calculateVisiblePoints' points pBase = 
+    calculateVisiblePoints pBase points'
+        where points' = filter (/=pBase) points
+
+--solve :: [(Integer, Integer)] -> Integer
+solve1 points =
+    let visiblePointsPerPoint = map (calculateVisiblePoints' points) points 
+        visiblePointsSizePerPoint = map length visiblePointsPerPoint
+        in maximum visiblePointsSizePerPoint
+
+
+--parseInput :: [String] -> [(Integer,Integer)]
+parseInput rows =
+    let rowsWithCoords = zip [0..] $ map (zip [0..]) rows
+    in [ (x,y) | (y,row) <- rowsWithCoords, (x,c) <- row, c == '#']
+
+solve = solve1.parseInput
