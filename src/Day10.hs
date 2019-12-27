@@ -56,4 +56,31 @@ parseInput rows =
     let rowsWithCoords = zip [0..] $ map (zip [0..]) rows
     in [ (x,y) | (y,row) <- rowsWithCoords, (x,c) <- row, c == '#']
 
-solve = solve1.parseInput
+solve = solve2.parseInput
+
+angle (x0, y0) (x,y)
+    | x0 == x && y < y0 = 0
+    | x0 == x && y > y0 = pi --180
+    | x0 > x && y == y0 = 1.5*pi --270
+    | x0 < x && y == y0 = 0.5*pi -- 90
+    | otherwise =
+        let a = abs (x-x0)
+            b = abs (y-y0)
+            alpha = atan (a/b)
+        in 
+            case (x>x0,y>y0) of
+                (True,False)  -> alpha 
+                (True,True)   -> pi - alpha 
+                (False,True)  -> pi + alpha 
+                (False,False) -> 2*pi - alpha 
+                
+solve2 points = 
+    (concat $ transpose pointsSorted) !! 199
+    where
+        pBase = (22,28)
+        points' = filter (/=pBase) points
+        anglesAndPoints = groupBy (\(a1,_) (a2,_) -> a1 == a2) $ sortBy (\(a1,_) (a2,_) -> compare a1 a2) $ map (\p -> (angle pBase p, p)) points'
+        pointsSorter p1 p2 = if pointNotVisible pBase p1 p2 then LT else GT
+        justPoints = map (map snd) anglesAndPoints
+        pointsSorted = map (sortBy pointsSorter) justPoints
+        
