@@ -41,15 +41,14 @@ calculateVisiblePoints pBase points =
         where folder = visibilityFolder pBase
 
 calculateVisiblePoints' points pBase = 
-    calculateVisiblePoints pBase points'
+    (pBase, calculateVisiblePoints pBase points')
         where points' = filter (/=pBase) points
 
 --solve :: [(Integer, Integer)] -> Integer
 solve1 points =
     let visiblePointsPerPoint = map (calculateVisiblePoints' points) points 
-        visiblePointsSizePerPoint = map length visiblePointsPerPoint
-        in maximum visiblePointsSizePerPoint
-
+        visiblePointsSizePerPoint = map (\(p,ps) -> (p, length ps)) visiblePointsPerPoint
+        in filter (\(p,size) -> size == 326) visiblePointsSizePerPoint
 
 --parseInput :: [String] -> [(Integer,Integer)]
 parseInput rows =
