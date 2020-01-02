@@ -8,6 +8,9 @@ data SpeedInfo a = Si (Point a) (Velocity a) deriving (Eq, Show)
 
 getPoint (Si pt _) = pt
 
+toList (Si (Pt x y z) (Vl x' y' z')) =
+    [x,y,z]
+
 applyVelocity (Si (Pt x y z) (Vl x' y' z')) =
     Si (Pt (x+x') (y+y') (z+z')) (Vl x' y' z')
 
@@ -33,13 +36,45 @@ totalEnergy sis =
     sum energies
     where
         energies = map moonEnergy sis
-        moonEnergy (Si (Pt x y z) (Vl vx vy vz)) = 
-            potential * kinetic 
+        moonEnergy (Si (Pt x y z) (Vl vx vy vz)) =
+            potential * kinetic
             where
                 potential = abs x + abs y + abs z
                 kinetic = abs vx + abs vy + abs vz
 
-solve1 sis n = 
+solve1 sis n =
     totalEnergy $ steps!!n
     where
         steps = iterate step sis
+
+test sis =
+    xs
+    where
+        steps = iterate step sis
+        xs = map getCoord $ map (!!0) steps
+        getCoord (Si (Pt x y z) (Vl vx vy vz)) = vz
+
+getPeriod xs =
+    snd $ head $ filter fst $ zip periodBitMap [2..]
+    where
+        periodBitMap = map tryPeriod [2..]
+        tryPeriod n =
+            l1 == l2
+            where
+                l1 = take n xs
+                l2 = take n $ drop n xs
+
+getPeriods xss =
+    map (getPeriod . extractor) [0..n-1]
+    where
+        n = length $ head xss
+        extractor i = map (!!i) xss
+
+lcms xs = foldl1 lcm xs
+
+solve2 sis =
+    lcms periods
+    where
+        steps = iterate step sis
+        lines = map (concatMap toList) steps
+        periods = getPeriods lines
