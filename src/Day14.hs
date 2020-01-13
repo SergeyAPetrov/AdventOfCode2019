@@ -44,10 +44,10 @@ reactionsToBackedges reactions =
     edges
     where
         edges = concatMap reactionToEdge reactions
-        reactionToEdge reaction = map (\r-> (name $ result reaction, amount $ result reaction, name r, amount r)) $ reagents reaction
+        reactionToEdge reaction = map (\r-> (name $ result reaction, fromInteger $ amount $ result reaction, name r, fromInteger $ amount r)) $ reagents reaction
 
-solve1 lines = 
-    foldl solutionFolder' initialValue orderedNodes
+solve lines = 
+    1000000000000 / (snd $ last $ foldl solutionFolder' initialValue orderedNodes)
     where 
         reactions = parse lines
         orderedNodes = reactionsInOrder reactions
@@ -56,7 +56,7 @@ solve1 lines =
         initialValue = zip orderedNodes (1:repeat 0)
 
 -- reaction data result element goes first
-solutionFolder :: [(String, Integer, String, Integer)] -> [(String, Integer)] -> String -> [(String, Integer)]
+solutionFolder :: [(String, Double, String, Double)] -> [(String, Double)] -> String -> [(String, Double)]
 solutionFolder reactionData accumulator currentNode =
     map processNode accumulator
     where
@@ -68,8 +68,8 @@ solutionFolder reactionData accumulator currentNode =
             else
                 let 
                     (resultName,resultAmount,sourceName,sourceAmount) = head edges
-                    coef = (fromIntegral currentNodeAmount)/(fromIntegral resultAmount)
-                    delta = (ceiling coef)*sourceAmount
+                    coef = currentNodeAmount/resultAmount
+                    delta = coef*sourceAmount
                 in (node, amount + delta)
             where 
                 edges = filter (\(_,_,x,_) -> x==node) outboundEdges
