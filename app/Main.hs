@@ -7,7 +7,7 @@ main =
     do 
         contents <- lines <$> readFile "input/14.txt"
         --contents <- readFile "input/8.txt"
-        let answer = parse contents
+        let answer = solve1 contents
               
-        print answer
+        print answer 
         --mapM_ putStrLn answer
