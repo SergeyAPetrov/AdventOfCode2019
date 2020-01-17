@@ -9,5 +9,5 @@ main =
         contents <- readFile "input/16.txt"
         let answer = solve contents
               
-        print answer 
-        --mapM_ putStrLn answer
+        --print answer 
+        mapM_ putStrLn answer

@@ -14,8 +14,6 @@ pattern n =
         nthPattern = concatMap ((take n).repeat) basePattern
 
 --phase :: [Integer] -> [Integer]
-phase xs = 
-    map (uncurry calculateElement) $ map ((,) xs) $ map pattern [1..(length xs)] 
 
 calculateElement xs pattern = 
     (abs total) `mod` 10
@@ -23,7 +21,10 @@ calculateElement xs pattern =
         total = sum $ map (uncurry (*)) $ zip xs pattern
 
 solve input = 
-    take 8 $ phases!!100
+    take 100 $ map (concat.(map show)) phases
     where
         inputSignal = parse input
         phases = iterate phase inputSignal
+        patterns = map pattern [1..(length inputSignal)] 
+        phase xs = 
+            map (uncurry calculateElement) $ map ((,) xs) patterns
